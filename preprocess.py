@@ -9,7 +9,7 @@ def crop_center(image):
     outside of the circle inscribed in the image frame
     '''
     center = image.shape[0] // 2
-    radius = int(center * 0.99)
+    radius = int(center * 0.96)
     mask = np.zeros(image.shape[:2], dtype="uint8")
     cv2.circle(mask, (center, center), radius, 255, -1)
     result = cv2.bitwise_and(image, image, mask=mask)
@@ -54,12 +54,12 @@ def process_image(image, size, alpha, C, min_area):
     brightened = cv2.convertScaleAbs(
         src=bilatered,
         alpha=alpha,
-        beta=1
+        beta=1,
     )
     thresholded = cv2.adaptiveThreshold(
         src=brightened,
         maxValue=255,
-	    adaptiveMethod=cv2.ADAPTIVE_THRESH_MEAN_C,
+	    adaptiveMethod=cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
         thresholdType=cv2.THRESH_BINARY_INV,
         blockSize=25,
         C=C,
@@ -67,6 +67,8 @@ def process_image(image, size, alpha, C, min_area):
     cropped = crop_center(thresholded)
     cleared = clear_dots(cropped, min_area)
     negated = cv2.bitwise_not(cleared)
+
+    plt.show()
     return negated
     
 
@@ -75,7 +77,7 @@ if __name__== '__main__':
     SIZE = 480
 
     when = "before"
-    file_name = 10
+    file_name = 2
     path = f"data/{file_name}/{when}/"
     original = cv2.imread(path + "original.jpg", 1)
     original = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)
@@ -84,7 +86,7 @@ if __name__== '__main__':
         image=original,
         size=SIZE,  
         alpha=1,
-        C=8,
+        C=7,
         min_area=10,
     ) 
     

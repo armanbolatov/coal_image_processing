@@ -15,8 +15,7 @@ def dilate_erode(image, kernel_size):
 
 if __name__== '__main__':
 
-    file_names = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12]
-    for file_name in file_names:
+    for file_name in range(1, 11):
         for type in ["after", "before"]:
             path = f"data/{file_name}/{type}/"
             manual = cv2.imread(path + "manual.bmp", 1)
