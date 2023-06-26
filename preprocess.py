@@ -67,21 +67,17 @@ def process_image(image, size, alpha, C, min_area):
     cropped = crop_center(thresholded)
     cleared = clear_dots(cropped, min_area)
     negated = cv2.bitwise_not(cleared)
-
     plt.show()
     return negated
     
 
 if __name__== '__main__':
-
     SIZE = 480
-
     when = "before"
     file_name = 2
     path = f"data/{file_name}/{when}/"
     original = cv2.imread(path + "original.jpg", 1)
     original = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)
-
     processed = process_image(
         image=original,
         size=SIZE,  
@@ -89,9 +85,7 @@ if __name__== '__main__':
         C=7,
         min_area=10,
     ) 
-    
     cv2.imwrite(path + "processed.bmp", processed)
-
     plt.subplot(1, 2, 1)
     plt.imshow(original)
     plt.subplot(1, 2, 2)
